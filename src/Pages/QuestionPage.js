@@ -71,18 +71,23 @@ export default function Question({ updateScore }) {
     useEffect(() => {
         // Update progress when the user submits an answer
         if (submitted) {
-          const totalQuestions = questions.length;
-          let innerNoOfQuestionSubmitter = NoOfQuestionSubmitted + 1
-          setNoOfQuestionSubmitted(innerNoOfQuestionSubmitter);
-          const currentQuestionId = currentQuestion ? currentQuestion.id : 0;
-          const calculatedProgress = (NoOfQuestionSubmitted / totalQuestions) * 100;
-          setProgress(calculatedProgress);
+            const totalQuestions = questions.length;
+            let innerNoOfQuestionSubmitter = NoOfQuestionSubmitted + 1
+            setNoOfQuestionSubmitted(innerNoOfQuestionSubmitter);
+            const currentQuestionId = currentQuestion ? currentQuestion.id : 0;
+            const calculatedProgress = (NoOfQuestionSubmitted / totalQuestions) * 100;
+            setProgress(calculatedProgress);
         }
-      }, [currentQuestion, submitted]);
+    }, [currentQuestion, submitted]);
 
 
     const handleOptionSelect = (option) => { // Function to get selected option
         setSelectedOption(option);
+
+        // Store the selected option in localStorage
+        const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
+        userAnswers[currentQuestion.id] = option;
+        localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
     };
 
     const handleSubmit = () => { // Function to get the submit the selected option 
