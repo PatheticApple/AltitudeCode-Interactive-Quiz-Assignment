@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "question": "What is the result of the equation 2 + 3 * 4?",
+    "options": ["14", "20", "24", "32"],
+    "correctAnswer": "14"
+  },
+  {
+    "id": 2,
+    "question": "What is the square root of 81?",
+    "options": ["9", "8", "7", "6"],
+    "correctAnswer": "9"
+  },
+  {
+    "id": 3,
+    "question": "If x = 5 and y = 3, what is the value of 2x + y?",
+    "options": ["10", "13", "15", "18"],
+    "correctAnswer": "13"
+  },
+  {
+    "id": 4,
+    "question": "What is the area of a rectangle with length 8 units and width 5 units?",
+    "options": ["20 square units", "30 square units", "40 square units", "50 square units"],
+    "correctAnswer": "40 square units"
+  },
+  {
+    "id": 5,
+    "question": "Simplify the expression: 3(2x - 5) + 4(3x + 2)",
+    "options": ["18x + 2", "18x - 18", "18x + 14", "18x - 8"],
+    "correctAnswer": "18x + 2"
+  },
+  {
+    "id": 6,
+    "question": "If a triangle has angles measuring 30°, 60°, and 90°, what type of triangle is it?",
+    "options": ["Equilateral", "Isosceles", "Scalene", "Right-angled"],
+    "correctAnswer": "Right-angled"
+  },
+  {
+    "id": 7,
+    "question": "What is the value of π (pi) to two decimal places?",
+    "options": ["3.14", "3.16", "3.18", "3.20"],
+    "correctAnswer": "3.14"
+  },
+  {
+    "id": 8,
+    "question": "If a circle has a radius of 5 units, what is its circumference?",
+    "options": ["10π units", "15π units", "20π units", "25π units"],
+    "correctAnswer": "10π units"
+  },
+  {
+    "id": 9,
+    "question": "What is the product of 7 and 9?",
+    "options": ["56", "63", "70", "81"],
+    "correctAnswer": "63"
+  },
+  {
+    "id": 10,
+    "question": "If a = 2 and b = 3, what is the value of a² + b²?",
+    "options": ["4", "9", "13", "25"],
+    "correctAnswer": "13"
+  },
+  {
+    "id": 11,
+    "question": "What is the perimeter of a square with side length 6 units?",
+    "options": ["18 units", "24 units", "30 units", "36 units"],
+    "correctAnswer": "24 units"
+  },
+  {
+    "id": 12,
+    "question": "What is the sum of the interior angles of a hexagon?",
+    "options": ["360 degrees", "540 degrees", "720 degrees", "900 degrees"],
+    "correctAnswer": "720 degrees"
+  },
+  {
+    "id": 13,
+    "question": "If a right-angled triangle has legs of length 3 and 4 units, what is the length of the hypotenuse?",
+    "options": ["5 units", "6 units", "7 units", "8 units"],
+    "correctAnswer": "5 units"
+  },
+  {
+    "id": 14,
+    "question": "What is the value of 2^4?",
+    "options": ["8", "16", "32", "64"],
+    "correctAnswer": "16"
+  },
+  {
+    "id": 15,
+    "question": "If a rectangle has length 10 units and width 6 units, what is its perimeter?",
+    "options": ["22 units", "26 units", "30 units", "36 units"],
+    "correctAnswer": "32 units"
+  }
+]

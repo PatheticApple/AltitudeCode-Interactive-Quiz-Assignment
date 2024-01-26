@@ -1,43 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
-
-const questions = [
-    {
-        id: 1,
-        question: 'What is the capital of France?',
-        options: ['Berlin', 'Paris', 'Madrid', 'Rome'],
-        correctAnswer: 'Paris',
-    },
-    {
-        id: 2,
-        question: 'Which planet is known as the Red Planet?',
-        options: ['Earth', 'Mars', 'Venus', 'Jupiter'],
-        correctAnswer: 'Mars',
-    },
-    {
-        id: 3,
-        question: 'What programming language is this app built with?',
-        options: ['Java', 'Python', 'JavaScript', 'C++'],
-        correctAnswer: 'JavaScript',
-    },
-    {
-        id: 4,
-        question: 'What is the largest mammal?',
-        options: ['Elephant', 'Blue Whale', 'Giraffe', 'Hippopotamus'],
-        correctAnswer: 'Blue Whale',
-    },
-    {
-        id: 5,
-        question: 'Who painted the Mona Lisa?',
-        options: ['Pablo Picasso', 'Vincent van Gogh', 'Leonardo da Vinci', 'Claude Monet'],
-        correctAnswer: 'Leonardo da Vinci',
-    },
-    // Add more questions as needed
-];
+import techQuestions from './tech.json'
+import mathQuestions from './math.json'
 
 export default function Question({ updateScore }) {
-
     const { id } = useParams(); // Get parameter from URL
     const navigate = useNavigate(); // Navigate questions (used to be useHistory)
     const [currentQuestion, setCurrentQuestion] = useState(null); // UseState for current question
@@ -50,7 +16,7 @@ export default function Question({ updateScore }) {
 
     useEffect(() => {
         const questionId = parseInt(id, 10);  // Constant variable to get id from question
-        const foundQuestion = questions.find((q) => q.id === questionId); // Find the question with the corresponding id
+        const foundQuestion = techQuestions.find((q) => q.id === questionId); // Find the question with the corresponding id
         console.log('Found Question:', foundQuestion);
         if (foundQuestion) { // If question found:
             setCurrentQuestion(foundQuestion); // set the useState variable to that 
@@ -76,16 +42,17 @@ export default function Question({ updateScore }) {
     }, [timer, navigate]);
 
     useEffect(() => {
-        // Update progress when the user submits an answer
         if (submitted) {
-            const totalQuestions = questions.length;
-            let innerNoOfQuestionSubmitter = NoOfQuestionSubmitted + 1
-            setNoOfQuestionSubmitted(innerNoOfQuestionSubmitter);
-            const currentQuestionId = currentQuestion ? currentQuestion.id : 0;
-            const calculatedProgress = (NoOfQuestionSubmitted / totalQuestions) * 100;
-            setProgress(calculatedProgress);
+          const totalQuestions = techQuestions.length;
+          const answeredQuestionIds = JSON.parse(localStorage.getItem('answeredQuestionIds')) || [];
+      
+          if (!answeredQuestionIds.includes(currentQuestion.id)) {
+            const updatedProgress = Math.ceil(((NoOfQuestionSubmitted) / totalQuestions) * 100);
+            setProgress(updatedProgress);
+            console.log("UPDATE PROGRESS BAR")
+          }
         }
-    }, [currentQuestion, submitted]);
+      }, [currentQuestion, submitted, NoOfQuestionSubmitted, techQuestions.length]);
 
     useEffect(() => {
         const questionId = parseInt(id, 10);
@@ -95,40 +62,45 @@ export default function Question({ updateScore }) {
         setSelectedOption(selectedOptionForCurrentQuestion || '');
     }, [currentQuestion]);
 
-    const handleOptionSelect = (option) => { // Function to get selected option
-        // Get the previous answer from localStorage
+    const handleOptionSelect = (option) => {
         const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
-
-        // If the user had previously answered this question, subtract 1 from the progress
-        if (userAnswers[currentQuestion.id] && submitted) {
-            setProgress((prevProgress) => prevProgress - (1 / questions.length) * 100);
-        }
-
+        const answeredQuestionIds = JSON.parse(localStorage.getItem('answeredQuestionIds')) || [];
+      
         // Update the user's answer and localStorage
         userAnswers[currentQuestion.id] = option;
         localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
-
-        // Set the selected option
-        setSelectedOption(option);
-
-        // If the answer was submitted, update the progress
-        if (submitted) {
-            setProgress((prevProgress) => prevProgress + (1 / questions.length) * 100);
-        } else {
-            // If the answer was not submitted, automatically submit it
-            handleSubmit();
+      
+        // Update the list of answered question IDs and localStorage
+        if (!answeredQuestionIds.includes(currentQuestion.id)) {
+          answeredQuestionIds.push(currentQuestion.id);
+          localStorage.setItem('answeredQuestionIds', JSON.stringify(answeredQuestionIds));
+          setNoOfQuestionSubmitted(NoOfQuestionSubmitted + 1);
+          console.log("No of Questions Submitted: " + NoOfQuestionSubmitted);
         }
-
-        // Automatically move on to the next question
-        const nextQuestionId = currentQuestion.id + 1;
-        const nextPath = nextQuestionId <= questions.length
-            ? `/question/${nextQuestionId}`
-            : '/result';
-
-
-        navigate(nextPath);
-
-    };
+      
+        // Update the progress
+        // setProgress((answeredQuestionIds.length / questions.length) * 100);
+        console.log(answeredQuestionIds.length);
+        console.log((answeredQuestionIds.length / techQuestions.length) * 100);
+        setSelectedOption(option);
+      
+        // If the answer was submitted, wait for a short delay and then navigate
+        if (submitted) {
+         
+            const nextQuestionId = currentQuestion.id + 1;
+            const nextPath = nextQuestionId <= techQuestions.length ? `/question/${nextQuestionId}` : '/result';
+            navigate(nextPath);
+          
+        } else {
+          // If not submitted, automatically submit after a delay
+         
+            handleSubmit();
+        
+        }
+      };
+      
+      
+      
 
     const handleSubmit = () => { // Function to get the submit the selected option 
         // Check if the selected option is correct
@@ -141,7 +113,7 @@ export default function Question({ updateScore }) {
 
         // Redirect to the next question or results page
         const nextQuestionId = currentQuestion.id + 1;
-        const nextPath = nextQuestionId <= questions.length
+        const nextPath = nextQuestionId <= techQuestions.length
             ? `/question/${nextQuestionId}`
             : '/result';
 
@@ -155,7 +127,7 @@ export default function Question({ updateScore }) {
         const nextQuestionId =
             direction === 'next' ? currentQuestion.id + 1 : currentQuestion.id - 1;
 
-        if (nextQuestionId > 0 && nextQuestionId <= questions.length) {
+        if (nextQuestionId > 0 && nextQuestionId <= techQuestions.length) {
             navigate(`/question/${nextQuestionId}`);
         }
 
@@ -167,9 +139,14 @@ export default function Question({ updateScore }) {
         // Clear user answers from localStorage
         localStorage.removeItem('userAnswers');
         // Reset the selected option state to an empty string
+        localStorage.removeItem('answeredQuestionIds');
+
+        setNoOfQuestionSubmitted(0);
         setSelectedOption('');
         // Redirect to the first question
         navigate('/question/1');
+        console.log("No of Questions Submitted: " + NoOfQuestionSubmitted);
+        setProgress(0);
     };
 
 
@@ -189,7 +166,7 @@ export default function Question({ updateScore }) {
                 <div className='container text-light'>
                     {currentQuestion && (
                         <div>
-                            <h2 className='display-4'>Question {currentQuestion.id} of {questions.length}</h2>
+                            <h2 className='display-4'>Question {currentQuestion.id} of {techQuestions.length}</h2>
                             <p>{currentQuestion.question}</p>
                             <div className='row'>
                                 {currentQuestion.options.map((option, index) => (
@@ -221,24 +198,29 @@ export default function Question({ updateScore }) {
                                     <div className='row'>
                                         <div className='col-12 col-sm-6 my-2'>
                                             <button className="btn btn-warning w-100 btn-lg" onClick={() => handleNavigation('prev')} disabled={currentQuestion.id === 1}>
-                                            Prev
-                                        </button>
+                                                Prev
+                                            </button>
                                         </div>
 
                                         <div className='col-12 col-sm-6 my-2'>
-                                        <button className="btn btn-warning w-100 btn-lg" onClick={() => handleNavigation('next')} disabled={currentQuestion.id === questions.length}>
-                                            Next
-                                        </button>
+                                            <button className="btn btn-warning w-100 btn-lg" onClick={() => handleNavigation('next')} disabled={currentQuestion.id === techQuestions.length}>
+                                                Next
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
 
+                            <div className='row'>
+                                <div className='text-center my-2'>
+                                    <button onClick={handleClearAnswers} className="btn btn-danger btn-lg">
+                                        Clear Answers and Start Over
+                                    </button>
+                                </div>
 
-                            <button onClick={handleClearAnswers} className="btn btn-danger">
-                                Clear Answers and Start Over
-                            </button>
+                            </div>
+
                         </div>
                     )}
                 </div>

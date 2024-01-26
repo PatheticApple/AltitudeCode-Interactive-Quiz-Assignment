@@ -1,0 +1,123 @@
+[
+  {
+    "id": 1,
+    "question": "What is the capital of Silicon Valley?",
+    "options": [
+      "San Francisco",
+      "San Jose",
+      "Palo Alto",
+      "Mountain View"
+    ],
+    "correctAnswer": "San Jose"
+  },
+  {
+    "id": 2,
+    "question": "Which company developed the first commercially successful personal computer?",
+    "options": [
+      "Apple",
+      "Microsoft",
+      "IBM",
+      "Commodore"
+    ],
+    "correctAnswer": "IBM"
+  },
+  {
+    "id": 3,
+    "question": "In computer programming, what does HTML stand for?",
+    "options": [
+      "Hyper Text Markup Language",
+      "High Tech Modern Language",
+      "Hyperlink and Text Markup Language",
+      "Home Tool Markup Language"
+    ],
+    "correctAnswer": "Hyper Text Markup Language"
+  },
+  {
+    "id": 4,
+    "question": "What does CPU stand for?",
+    "options": [
+      "Central Processing Unit",
+      "Computer Personal Unit",
+      "Central Personal Unit",
+      "Computer Processing Unit"
+    ],
+    "correctAnswer": "Central Processing Unit"
+  },
+  {
+    "id": 5,
+    "question": "Which programming language is commonly used for building web pages?",
+    "options": [
+      "Java",
+      "Python",
+      "JavaScript",
+      "Ruby"
+    ],
+    "correctAnswer": "JavaScript"
+  },
+  {
+    "id": 6,
+    "question": "What is the main function of a router in a computer network?",
+    "options": [
+      "Connects devices within the same network",
+      "Filters and forwards data packets between networks",
+      "Manages internet traffic",
+      "Controls the flow of electrical signals"
+    ],
+    "correctAnswer": "Filters and forwards data packets between networks"
+  },
+  {
+    "id": 7,
+    "question": "Which tech company is known for its search engine?",
+    "options": [
+      "Microsoft",
+      "Apple",
+      "Google",
+      "Amazon"
+    ],
+    "correctAnswer": "Google"
+  },
+  {
+    "id": 8,
+    "question": "What is the programming language primarily used for Android app development?",
+    "options": [
+      "Java",
+      "Swift",
+      "Kotlin",
+      "C#"
+    ],
+    "correctAnswer": "Java"
+  },
+  {
+    "id": 9,
+    "question": "Which company is the largest social media platform?",
+    "options": [
+      "Facebook",
+      "Twitter",
+      "LinkedIn",
+      "Instagram"
+    ],
+    "correctAnswer": "Facebook"
+  },
+  {
+    "id": 10,
+    "question": "What does VPN stand for?",
+    "options": [
+      "Virtual Personal Network",
+      "Very Private Network",
+      "Virtual Public Network",
+      "Visual Processing Node"
+    ],
+    "correctAnswer": "Virtual Private Network"
+  },
+  {
+    "id": 11,
+    "question": "Which tech entrepreneur is also known for his electric car company?",
+    "options": [
+      "Jeff Bezos",
+      "Elon Musk",
+      "Mark Zuckerberg",
+      "Bill Gates"
+    ],
+    "correctAnswer": "Elon Musk"
+  }
+]
