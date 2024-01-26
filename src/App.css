@@ -1,3 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Antique+B1&display=swap');
+
+body {
+  font-family: 'Shippori Antique B1', sans-serif;
+}
+
+
+
 .App {
   text-align: center;
 }
@@ -35,4 +43,93 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+
+
+#navbar #buttonHoverEffects {
+  font-size: 20px;
+}
+
+
+
+.navFontSize {
+    font-size: clamp(20px, 4vw, 30px);
+}
+
+.backgroundDarkNoGradient {
+  background-color: #07111A;
+}
+
+#companyLogo {
+  height: 100px;
+  margin: auto;
+  max-width: 300px;
+}
+
+@media screen and (max-width: 400px) {
+  #companyLogo {
+    height: 80px;
+    margin: auto;
+    max-width: 200px;
+  }
+}
+
+
+.navButtons:hover {
+  background-color: #115E99;
+  border-radius: 10px;
+}
+
+.navButtons {
+  text-decoration: none;
+  color: white;
+}
+
+
+
+.image-container {
+  text-align: center;
+}
+
+.image-container img {
+  vertical-align: middle;
+}
+
+
+.homeContainer {
+  background-color: #07111A;
+}
+
+.bottomLine {
+  border-bottom: gray 1px solid;
+}
+
+.topLine {
+  border-top: gray 1px solid;
+}
+
+.noTextDecoration {
+  text-decoration: none;
+}
+
+.quizCards {
+  border-radius: 10px;
+  background-color: #0A151F;
+}
+
+.quizCards:hover {
+  background-color: #102e4a;
+}
+
+.backgroundImage {
+  background-image: linear-gradient(rgba(7, 17, 13, 0.6), rgba(7, 17, 26, 0.9)), url(./information_technology.jpg);
+}
+
+.horizontalLines {
+  border-color: white;
+  border-width: 5px;
+  margin-left: 3rem;
+  margin-right: 3rem;
 }

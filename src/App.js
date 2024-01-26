@@ -36,7 +36,6 @@ function App() {
     //   </header>
     // </div>
     <BrowserRouter>
-      <BoostrapLink />
       <Header />
       <Routes>
         <Route path='/' element={<Home/>}></Route>
@@ -44,6 +43,7 @@ function App() {
         <Route path='/Result' element={<Result score={score}/>}></Route>
       </Routes>
       <Footer />
+      {/* <BoostrapLink /> */}
     </BrowserRouter>
   );
 }

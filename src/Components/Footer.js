@@ -1,13 +1,10 @@
 // the header
 export default function Footer() {
     return (
-      <footer>
-        {/* icon */}
-        {/* <div id="icon">
-          <img src="img/icon.png" alt="Icon" />
-        </div> */}
-        <p className="footerText">All data is from IMDB, Metacritic and RottenTomatoes.</p>
-        <p className="footerText">© 2023 Gary Nguyen</p>
-      </footer>
+      <footer className="footer">
+        <div className="text-center py-5 backgroundDarkNoGradient topLine">
+            <span className="text-light display-6">Gary Nguyen - Interactive Web Quiz</span>
+        </div>
+    </footer>
     );
   }

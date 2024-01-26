@@ -51,17 +51,21 @@ export default function Nav() {
                 </li>
         )
     }
+    // <a className="nav-item nav-link text-light mx-3 navButtons" href="/">Browse Events</a>
+    function TestButton() {
+        return (
+            <a className="nav-item nav-link text-light mx-3 navButtons"><Link to="/">HELLO?</Link></a>
+        )
+    }
+
+
     // Function to render buttons on Nav
     
 
 
     return (
-        <nav>
-            <ul>
-                <HomeButton />
-                <QuestionButton />
-                <ResultButton />
-            </ul>
-        </nav>
+        <div className="navbar-nav ml-auto">
+                <TestButton/>
+        </div>
     );
 }
