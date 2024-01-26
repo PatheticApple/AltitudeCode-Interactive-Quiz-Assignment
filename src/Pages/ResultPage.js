@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const questions = [
@@ -47,28 +48,46 @@ function RenderResults() {
         navigate('/question/1');
     };
 
-    const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {}; // Retrieve user answers from localStorage
+    const [userAnswers, setUserAnswers] = useState({});
+
+    const [score, setScore] = useState(0);
+
+    useEffect(() => {
+        // Retrieve user answers and questions from localStorage
+        const storedUserAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
+        setUserAnswers(storedUserAnswers);
+
+
+        // Calculate the score
+        let userScore = 0;
+        questions.forEach((question) => {
+            const userAnswer = storedUserAnswers[question.id];
+            if (userAnswer && userAnswer === question.correctAnswer) {
+                userScore += 1;
+            }
+        });
+        setScore(userScore);
+    }, []);
     return (
         <div>
-            {questions.map((question, index) => {
-                const isCorrect = userAnswers[index + 1] === question.correctAnswer;
-                return (
-                    <div key={index}>
-                        <p>Question {question.id}:  {question.question}</p>
-                        <ul>
-                            {question.options.map((option) => (
-                                <li key={option}>{option}</li>
-                            ))}
-                        </ul>
-                        <p>
-                            
-                            Your answer: {userAnswers[index + 1] ?? "No Answer"}, Correct answer: {question.correctAnswer}
-                            {isCorrect ? ' (Correct)' : ' (Wrong)'}
-                        </p>
-                        <hr />
-                    </div>
-                );
-            })}
+            <div>
+                <h2>Results</h2>
+                <p>Your final score is: {score} out of {questions.length}</p>
+                <ul>
+                    {questions.map((question) => (
+                        <li key={question.id}>
+                            <strong>Question:</strong> {question.text}<br />
+                            <strong>Your Answer:</strong> {userAnswers[question.id] ?? "No Answer"}<br />
+                            <strong>Correct Answer:</strong> {question.correctAnswer}<br />
+                            {userAnswers[question.id] === question.correctAnswer ? (
+                                <span style={{ color: 'green' }}> (Correct)</span>
+                            ) : (
+                                <span style={{ color: 'red' }}> (Wrong)</span>
+                            )}<br /><br />
+                        </li>
+                    ))}
+                </ul>
+            </div>
             <button onClick={handleClearAnswers} className="btn btn-danger">
                 Clear Answers and Start Over
             </button>
@@ -80,9 +99,18 @@ export default function Result({ score }) {
 
     return (
         <div>
-            <h2>Quiz Results</h2>
-            <p>Your final score is: {score}</p>
-            <RenderResults />
+            <div className="homeContainer">
+
+                <div className="backgroundImage py-5">
+                    <div className="container">
+                        <h1 className="text-light text-center display-2 py-5">Result</h1>
+                    </div>
+                </div>
+                <hr className="horizontalLines"></hr>
+                <div className='container text-light'>
+                    <RenderResults />
+                </div>
+            </div>
         </div>
     )
 }
