@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "question": "Which country is known as the Land of the Rising Sun?",
+        "options": ["China", "Japan", "South Korea", "Vietnam"],
+        "correctAnswer": "Japan"
+    },
+    {
+        "id": 2,
+        "question": "In which country would you find the pyramids of Giza?",
+        "options": ["Greece", "Turkey", "Egypt", "Italy"],
+        "correctAnswer": "Egypt"
+    },
+    {
+        "id": 3,
+        "question": "What is the capital city of Australia?",
+        "options": ["Sydney", "Melbourne", "Canberra", "Perth"],
+        "correctAnswer": "Canberra"
+    },
+    {
+        "id": 4,
+        "question": "Which country is the largest by land area?",
+        "options": ["Russia", "Canada", "United States", "China"],
+        "correctAnswer": "Russia"
+    },
+    {
+        "id": 5,
+        "question": "In which continent is Brazil located?",
+        "options": ["Asia", "Africa", "South America", "Europe"],
+        "correctAnswer": "South America"
+    },
+    {
+        "id": 6,
+        "question": "What is the official language of Mexico?",
+        "options": ["Spanish", "Portuguese", "English", "French"],
+        "correctAnswer": "Spanish"
+    },
+    {
+        "id": 7,
+        "question": "Which African country is known as the \"Rainbow Nation\"?",
+        "options": ["Nigeria", "Kenya", "South Africa", "Egypt"],
+        "correctAnswer": "South Africa"
+    }
+]
