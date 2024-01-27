@@ -39,8 +39,8 @@ function App() {
       <Header />
       <Routes>
         <Route path='/' element={<Home/>}></Route>
-        <Route path='/Question/:id' element={<Question updateScore={updateScore}/>}></Route>
-        <Route path='/Result' element={<Result score={score}/>}></Route>
+        <Route path='/Question/:id/:category' element={<Question updateScore={updateScore}/>}></Route>
+        <Route path='/Result/:category' element={<Result score={score}/>}></Route>
       </Routes>
       <Footer />
       {/* <BoostrapLink /> */}

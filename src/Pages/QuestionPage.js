@@ -1,10 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import techQuestions from './tech.json'
 import mathQuestions from './math.json'
 
+
+function useInterval(callback, delay) {
+    const savedCallback = useRef();
+
+    useEffect(() => {
+        savedCallback.current = callback;
+    }, [callback]);
+
+    useEffect(() => {
+        function tick() {
+            savedCallback.current();
+        }
+        if (delay !== null) {
+            const id = setInterval(tick, delay);
+            return () => clearInterval(id);
+        }
+    }, [delay]);
+}
+
+
 export default function Question({ updateScore }) {
-    const { id } = useParams(); // Get parameter from URL
+    const { id, category } = useParams(); // Get parameter from URL
     const navigate = useNavigate(); // Navigate questions (used to be useHistory)
     const [currentQuestion, setCurrentQuestion] = useState(null); // UseState for current question
     const [selectedOption, setSelectedOption] = useState(''); // UseState for Selected Option
@@ -13,46 +33,64 @@ export default function Question({ updateScore }) {
     const [progress, setProgress] = useState(0);
     const [submitted, setSubmitted] = useState(false);
     const [NoOfQuestionSubmitted, setNoOfQuestionSubmitted] = useState(0);
+    const [innerLoadedQuestions, setInnerLoadedQuestions] = useState([]);
 
+    const timerRef = useRef(100); // Initialize with the initial timer value
+
+    useInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+    }, timerRef.current ? 1000 : null);
+
+
+    console.log("Category is: " + category);
     useEffect(() => {
-        const questionId = parseInt(id, 10);  // Constant variable to get id from question
-        const foundQuestion = techQuestions.find((q) => q.id === questionId); // Find the question with the corresponding id
-        console.log('Found Question:', foundQuestion);
-        if (foundQuestion) { // If question found:
-            setCurrentQuestion(foundQuestion); // set the useState variable to that 
-            // Start timer when question loads (optional challenge)
-            const interval = setInterval(() => {
-                setTimer((prevTimer) => prevTimer - 1);
-            }, 1000);
+        const loadQuestionsAndSetState = async () => {
+          const loadedQuestions = await loadQuestions();
+          setInnerLoadedQuestions(loadedQuestions);
+      
+          const questionId = parseInt(id, 10);
+          const foundQuestion = loadedQuestions.find((q) => q.id === questionId);
+      
+          if (foundQuestion) {
+            setCurrentQuestion(foundQuestion);
+            timerRef.current = 100; // Reset timer value when loading a new question
+          } else {
+            navigate(`/result/${category}`);
+          }
+        };
 
-            // Clear the timer when the component unmounts
-            return () => clearInterval(interval);
-        }
-        else {
-            // Redirect to results if the question id is not found
-            navigate('/result');
-        }
-    }, [id, navigate]);
+        const loadQuestions = async () => {
+            try {
+                const questions = await import(`./${category}.json`);
+                return questions.default || [];
+            } catch (error) {
+                console.error('Error loading questions:', error);
+                return [];
+            }
+        };
+
+        loadQuestionsAndSetState();
+    }, [id, category, navigate]);
 
     useEffect(() => {
         // Redirect to the result page when the timer reaches zero
         if (timer === 0) {
-            navigate('/result');
+            navigate(`/result/${category}`);
         }
     }, [timer, navigate]);
 
     useEffect(() => {
         if (submitted) {
-          const totalQuestions = techQuestions.length;
-          const answeredQuestionIds = JSON.parse(localStorage.getItem('answeredQuestionIds')) || [];
-      
-          if (!answeredQuestionIds.includes(currentQuestion.id)) {
-            const updatedProgress = Math.ceil(((NoOfQuestionSubmitted) / totalQuestions) * 100);
-            setProgress(updatedProgress);
-            console.log("UPDATE PROGRESS BAR")
-          }
+            const totalQuestions = innerLoadedQuestions.length;
+            const answeredQuestionIds = JSON.parse(localStorage.getItem('answeredQuestionIds')) || [];
+
+            if (!answeredQuestionIds.includes(currentQuestion.id)) {
+                const updatedProgress = Math.ceil(((NoOfQuestionSubmitted) / totalQuestions) * 100);
+                setProgress(updatedProgress);
+                console.log("UPDATE PROGRESS BAR")
+            }
         }
-      }, [currentQuestion, submitted, NoOfQuestionSubmitted, techQuestions.length]);
+    }, [currentQuestion, submitted, NoOfQuestionSubmitted, innerLoadedQuestions.length]);
 
     useEffect(() => {
         const questionId = parseInt(id, 10);
@@ -65,42 +103,42 @@ export default function Question({ updateScore }) {
     const handleOptionSelect = (option) => {
         const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
         const answeredQuestionIds = JSON.parse(localStorage.getItem('answeredQuestionIds')) || [];
-      
+
         // Update the user's answer and localStorage
         userAnswers[currentQuestion.id] = option;
         localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
-      
+
         // Update the list of answered question IDs and localStorage
         if (!answeredQuestionIds.includes(currentQuestion.id)) {
-          answeredQuestionIds.push(currentQuestion.id);
-          localStorage.setItem('answeredQuestionIds', JSON.stringify(answeredQuestionIds));
-          setNoOfQuestionSubmitted(NoOfQuestionSubmitted + 1);
-          console.log("No of Questions Submitted: " + NoOfQuestionSubmitted);
+            answeredQuestionIds.push(currentQuestion.id);
+            localStorage.setItem('answeredQuestionIds', JSON.stringify(answeredQuestionIds));
+            setNoOfQuestionSubmitted(NoOfQuestionSubmitted + 1);
+            console.log("No of Questions Submitted: " + NoOfQuestionSubmitted);
         }
-      
+
         // Update the progress
         // setProgress((answeredQuestionIds.length / questions.length) * 100);
         console.log(answeredQuestionIds.length);
-        console.log((answeredQuestionIds.length / techQuestions.length) * 100);
+        console.log((answeredQuestionIds.length / innerLoadedQuestions.length) * 100);
         setSelectedOption(option);
-      
+
         // If the answer was submitted, wait for a short delay and then navigate
         if (submitted) {
-         
+
             const nextQuestionId = currentQuestion.id + 1;
-            const nextPath = nextQuestionId <= techQuestions.length ? `/question/${nextQuestionId}` : '/result';
+            const nextPath = nextQuestionId <= innerLoadedQuestions.length ? `/question/${nextQuestionId}/${category}` : `/result/${category}`;
             navigate(nextPath);
-          
+
         } else {
-          // If not submitted, automatically submit after a delay
-         
+            // If not submitted, automatically submit after a delay
+
             handleSubmit();
-        
+
         }
-      };
-      
-      
-      
+    };
+
+
+
 
     const handleSubmit = () => { // Function to get the submit the selected option 
         // Check if the selected option is correct
@@ -113,9 +151,9 @@ export default function Question({ updateScore }) {
 
         // Redirect to the next question or results page
         const nextQuestionId = currentQuestion.id + 1;
-        const nextPath = nextQuestionId <= techQuestions.length
-            ? `/question/${nextQuestionId}`
-            : '/result';
+        const nextPath = nextQuestionId <= innerLoadedQuestions.length
+            ? `/question/${nextQuestionId}/${category}`
+            : `/result/${category}`;
 
         // Redirect after a delay for better user experience
         // setTimeout(() => {
@@ -127,8 +165,8 @@ export default function Question({ updateScore }) {
         const nextQuestionId =
             direction === 'next' ? currentQuestion.id + 1 : currentQuestion.id - 1;
 
-        if (nextQuestionId > 0 && nextQuestionId <= techQuestions.length) {
-            navigate(`/question/${nextQuestionId}`);
+        if (nextQuestionId > 0 && nextQuestionId <= innerLoadedQuestions.length) {
+            navigate(`/question/${nextQuestionId}/${category}`);
         }
 
         setSubmitted(false);
@@ -144,7 +182,7 @@ export default function Question({ updateScore }) {
         setNoOfQuestionSubmitted(0);
         setSelectedOption('');
         // Redirect to the first question
-        navigate('/question/1');
+        navigate(`/question/1/${category}`);
         console.log("No of Questions Submitted: " + NoOfQuestionSubmitted);
         setProgress(0);
     };
@@ -166,7 +204,7 @@ export default function Question({ updateScore }) {
                 <div className='container text-light'>
                     {currentQuestion && (
                         <div>
-                            <h2 className='display-4'>Question {currentQuestion.id} of {techQuestions.length}</h2>
+                            <h2 className='display-4'>Question {currentQuestion.id} of {innerLoadedQuestions.length}</h2>
                             <p>{currentQuestion.question}</p>
                             <div className='row'>
                                 {currentQuestion.options.map((option, index) => (
@@ -203,7 +241,7 @@ export default function Question({ updateScore }) {
                                         </div>
 
                                         <div className='col-12 col-sm-6 my-2'>
-                                            <button className="btn btn-warning w-100 btn-lg" onClick={() => handleNavigation('next')} disabled={currentQuestion.id === techQuestions.length}>
+                                            <button className="btn btn-warning w-100 btn-lg" onClick={() => handleNavigation('next')} disabled={currentQuestion.id === innerLoadedQuestions.length}>
                                                 Next
                                             </button>
                                         </div>
