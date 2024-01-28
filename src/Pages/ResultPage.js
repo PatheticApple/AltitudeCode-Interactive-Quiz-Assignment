@@ -52,7 +52,7 @@ function RenderResults() {
             <div>
                 <h1>Your final score is: {score} out of {loadedQuestions.length}</h1>
                 <hr></hr>
-                <ul>
+                <ol>
                     <div className='row'>
                         {loadedQuestions.map((question) => (
                             <div className='col-12 col-md-6 col-xl-4'>
@@ -72,7 +72,7 @@ function RenderResults() {
                         ))}
                     </div>
 
-                </ul>
+                </ol>
             </div>
             <div className='row'>
                 <div className='text-center my-2'>

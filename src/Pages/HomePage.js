@@ -54,7 +54,7 @@ export default function Home() {
 
             <div className="row">
                 <div className="col-12 col-xl-4 col-md-6">
-                    <Link to="/question/1/tech" className="noTextDecoration"><div className="m-5 p-5 text-center text-light quizCards">
+                    <Link to="/question/1/tech" className="noTextDecoration"><div className="mx-5 my-1 p-5 text-center text-light quizCards">
                         <h1>Tech Quiz</h1>
                         <h2 className="display-6 py-5">{techQuestions.length} Questions</h2>
                         <h3 className="py-2">Time</h3>

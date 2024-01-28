@@ -68,7 +68,7 @@ body {
   max-width: 300px;
 }
 
-@media screen and (max-width: 400px) {
+@media (max-width: 767px) {
   #companyLogo {
     height: 80px;
     margin: auto;

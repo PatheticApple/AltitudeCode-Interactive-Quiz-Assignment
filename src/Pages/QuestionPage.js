@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import techQuestions from './tech.json'
 import mathQuestions from './math.json'
 
@@ -45,18 +45,18 @@ export default function Question({ updateScore }) {
     console.log("Category is: " + category);
     useEffect(() => {
         const loadQuestionsAndSetState = async () => {
-          const loadedQuestions = await loadQuestions();
-          setInnerLoadedQuestions(loadedQuestions);
-      
-          const questionId = parseInt(id, 10);
-          const foundQuestion = loadedQuestions.find((q) => q.id === questionId);
-      
-          if (foundQuestion) {
-            setCurrentQuestion(foundQuestion);
-            timerRef.current = 100; // Reset timer value when loading a new question
-          } else {
-            navigate(`/result/${category}`);
-          }
+            const loadedQuestions = await loadQuestions();
+            setInnerLoadedQuestions(loadedQuestions);
+
+            const questionId = parseInt(id, 10);
+            const foundQuestion = loadedQuestions.find((q) => q.id === questionId);
+
+            if (foundQuestion) {
+                setCurrentQuestion(foundQuestion);
+                timerRef.current = 100; // Reset timer value when loading a new question
+            } else {
+                navigate(`/result/${category}`);
+            }
         };
 
         const loadQuestions = async () => {
@@ -175,7 +175,8 @@ export default function Question({ updateScore }) {
 
     const handleClearAnswers = () => {
         // Clear user answers from localStorage
-        localStorage.removeItem('userAnswers');
+        if (startOverConfirmation()) {
+            localStorage.removeItem('userAnswers');
         // Reset the selected option state to an empty string
         localStorage.removeItem('answeredQuestionIds');
 
@@ -185,8 +186,31 @@ export default function Question({ updateScore }) {
         navigate(`/question/1/${category}`);
         console.log("No of Questions Submitted: " + NoOfQuestionSubmitted);
         setProgress(0);
+        }
+        
     };
 
+    const showConfirmation = () => {
+        return window.confirm('Are you sure you want to return home? Your progress will be lost.');
+    };
+
+    const startOverConfirmation = () => {
+        return window.confirm('Are you sure you want to start over? Your current progress will be lost.');
+    };
+
+
+    const handleReturnHome = () => {
+        if (showConfirmation()) {
+            // Clear user answers from localStorage
+            localStorage.removeItem('userAnswers');
+            // Reset the selected option state to an empty string
+            localStorage.removeItem('answeredQuestionIds');
+            setNoOfQuestionSubmitted(0);
+            setSelectedOption('');
+            // Redirect to the home page
+            navigate('/');
+        }
+    };
 
     return (
         <div>
@@ -195,7 +219,7 @@ export default function Question({ updateScore }) {
 
                 <div className="backgroundImage py-5">
                     <div className="container">
-                        <h1 className="text-light text-center display-2 py-5">Welcome to my interactive quiz</h1>
+                        <h1 className="text-light text-center display-2 py-5"> {category.charAt(0).toUpperCase() + category.slice(1)} Quiz </h1>
                     </div>
                 </div>
 
@@ -205,14 +229,14 @@ export default function Question({ updateScore }) {
                     {currentQuestion && (
                         <div>
                             <h2 className='display-4'>Question {currentQuestion.id} of {innerLoadedQuestions.length}</h2>
-                            <p>{currentQuestion.question}</p>
+                            <h3 className='my-3'>{currentQuestion.question}</h3>
                             <div className='row'>
                                 {currentQuestion.options.map((option, index) => (
                                     <div key={index} className="form-check my-2 col-12 col-md-6">
                                         <button
                                             key={index}
                                             type="button"
-                                            className={`btn btn-outline-primary w-100 btn-lg ${selectedOption === option ? 'active' : ''}`}
+                                            className={`btn btn-outline-primary w-100 btn-lg p-4 ${selectedOption === option ? 'active' : ''}`}
                                             onClick={() => handleOptionSelect(option)}
                                         // disabled={submitted}
                                         >
@@ -232,6 +256,12 @@ export default function Question({ updateScore }) {
                                     {timer !== null && <p>Time remaining: {timer} seconds</p>}
                                 </div>
 
+
+
+                            </div>
+
+                            <div className='row'>
+
                                 <div className='col-12 col-xl-4 text-center'>
                                     <div className='row'>
                                         <div className='col-12 col-sm-6 my-2'>
@@ -247,15 +277,24 @@ export default function Question({ updateScore }) {
                                         </div>
                                     </div>
                                 </div>
+                                <div className='col-12 col-xl-8 text-center'>
+                                    <div className='row'>
+                                        <div className='my-2 col-12 col-sm-6 my-2'>
+                                            <button className="btn btn-info btn-lg w-100" onClick={handleReturnHome}>
+                                                Return Home
+                                            </button>
+                                        </div>
+                                        <div className='my-2 col-12 col-sm-6 my-2'>
+                                            <button onClick={handleClearAnswers} className="btn btn-danger btn-lg w-100">
+                                                Start Over
+                                            </button>
+                                        </div>
+                                    </div>
 
-                            </div>
 
-                            <div className='row'>
-                                <div className='text-center my-2'>
-                                    <button onClick={handleClearAnswers} className="btn btn-danger btn-lg">
-                                        Clear Answers and Start Over
-                                    </button>
                                 </div>
+
+
 
                             </div>
 
