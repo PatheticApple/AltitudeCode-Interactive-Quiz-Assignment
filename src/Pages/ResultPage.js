@@ -59,13 +59,15 @@ function RenderResults() {
                                 <li key={question.id}>
 
                                     <strong>Question:</strong> {question.question}<br />
+                                    
                                     <strong>Correct Answer:</strong> {question.correctAnswer}<br />
                                     <strong>Your Answer:</strong> {userAnswers[question.id] ?? "No Answer"} -
                                     {userAnswers[question.id] === question.correctAnswer ? (
                                         <span style={{ color: 'green' }}> (Correct)</span>
                                     ) : (
                                         <span style={{ color: 'red' }}> (Wrong)</span>
-                                    )}<br /><br />
+                                    )}
+                                    <hr></hr><br />
 
                                 </li>
                             </div>
