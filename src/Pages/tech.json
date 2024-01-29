@@ -8,7 +8,8 @@
       "Palo Alto",
       "Mountain View"
     ],
-    "correctAnswer": "San Jose"
+    "correctAnswer": "San Jose",
+    "hint": "It's one of the major cities in the region known for tech innovation."
   },
   {
     "id": 2,
@@ -19,7 +20,8 @@
       "IBM",
       "Commodore"
     ],
-    "correctAnswer": "IBM"
+    "correctAnswer": "IBM",
+    "hint": "This company is widely recognized in the world of computing and technology."
   },
   {
     "id": 3,
@@ -30,7 +32,8 @@
       "Hyperlink and Text Markup Language",
       "Home Tool Markup Language"
     ],
-    "correctAnswer": "Hyper Text Markup Language"
+    "correctAnswer": "Hyper Text Markup Language",
+    "hint": "It's a language used to structure content on the web."
   },
   {
     "id": 4,
@@ -41,7 +44,8 @@
       "Central Personal Unit",
       "Computer Processing Unit"
     ],
-    "correctAnswer": "Central Processing Unit"
+    "correctAnswer": "Central Processing Unit",
+    "hint": "It's often referred to as the 'brain' of the computer."
   },
   {
     "id": 5,
@@ -52,7 +56,8 @@
       "JavaScript",
       "Ruby"
     ],
-    "correctAnswer": "JavaScript"
+    "correctAnswer": "JavaScript",
+    "hint": "This language adds interactivity to websites and is supported by most browsers."
   },
   {
     "id": 6,
@@ -63,7 +68,8 @@
       "Manages internet traffic",
       "Controls the flow of electrical signals"
     ],
-    "correctAnswer": "Filters and forwards data packets between networks"
+    "correctAnswer": "Filters and forwards data packets between networks",
+    "hint": "It directs data traffic between different parts of a network."
   },
   {
     "id": 7,
@@ -74,7 +80,8 @@
       "Google",
       "Amazon"
     ],
-    "correctAnswer": "Google"
+    "correctAnswer": "Google",
+    "hint": "This company's name has become synonymous with online search."
   },
   {
     "id": 8,
@@ -85,7 +92,8 @@
       "Kotlin",
       "C#"
     ],
-    "correctAnswer": "Java"
+    "correctAnswer": "Java",
+    "hint": "Developers use this language to create applications for the Android platform."
   },
   {
     "id": 9,
@@ -96,7 +104,8 @@
       "LinkedIn",
       "Instagram"
     ],
-    "correctAnswer": "Facebook"
+    "correctAnswer": "Facebook",
+    "hint": "It's a platform where people connect and share content with friends and family."
   },
   {
     "id": 10,
@@ -107,7 +116,8 @@
       "Virtual Public Network",
       "Visual Processing Node"
     ],
-    "correctAnswer": "Virtual Private Network"
+    "correctAnswer": "Virtual Private Network",
+    "hint": "It provides a secure connection over the internet, often used for privacy and security."
   },
   {
     "id": 11,
@@ -118,6 +128,7 @@
       "Mark Zuckerberg",
       "Bill Gates"
     ],
-    "correctAnswer": "Elon Musk"
+    "correctAnswer": "Elon Musk",
+    "hint": "This entrepreneur is behind companies like SpaceX and Tesla."
   }
 ]

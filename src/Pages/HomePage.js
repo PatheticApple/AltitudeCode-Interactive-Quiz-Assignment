@@ -4,39 +4,6 @@ import techQuestions from './tech.json'
 import mathQuestions from './math.json'
 import countryQuestions from './country.json'
 
-const questions = [
-    {
-        id: 1,
-        question: 'What is the capital of France?',
-        options: ['Berlin', 'Paris', 'Madrid', 'Rome'],
-        correctAnswer: 'Paris',
-    },
-    {
-        id: 2,
-        question: 'Which planet is known as the Red Planet?',
-        options: ['Earth', 'Mars', 'Venus', 'Jupiter'],
-        correctAnswer: 'Mars',
-    },
-    {
-        id: 3,
-        question: 'What programming language is this app built with?',
-        options: ['Java', 'Python', 'JavaScript', 'C++'],
-        correctAnswer: 'JavaScript',
-    },
-    {
-        id: 4,
-        question: 'What is the largest mammal?',
-        options: ['Elephant', 'Blue Whale', 'Giraffe', 'Hippopotamus'],
-        correctAnswer: 'Blue Whale',
-    },
-    {
-        id: 5,
-        question: 'Who painted the Mona Lisa?',
-        options: ['Pablo Picasso', 'Vincent van Gogh', 'Leonardo da Vinci', 'Claude Monet'],
-        correctAnswer: 'Leonardo da Vinci',
-    },
-    // Add more questions as needed
-];
 
 
 

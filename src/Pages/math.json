@@ -3,90 +3,105 @@
     "id": 1,
     "question": "What is the result of the equation 2 + 3 * 4?",
     "options": ["14", "20", "24", "32"],
-    "correctAnswer": "14"
+    "correctAnswer": "14",
+    "hint": "Remember the order of operations (PEMDAS/BODMAS)."
   },
   {
     "id": 2,
     "question": "What is the square root of 81?",
     "options": ["9", "8", "7", "6"],
-    "correctAnswer": "9"
+    "correctAnswer": "9",
+    "hint": "Think of a number that, when multiplied by itself, equals 81."
   },
   {
     "id": 3,
     "question": "If x = 5 and y = 3, what is the value of 2x + y?",
     "options": ["10", "13", "15", "18"],
-    "correctAnswer": "13"
+    "correctAnswer": "13",
+    "hint": "Substitute the values of x and y into the expression."
   },
   {
     "id": 4,
     "question": "What is the area of a rectangle with length 8 units and width 5 units?",
     "options": ["20 square units", "30 square units", "40 square units", "50 square units"],
-    "correctAnswer": "40 square units"
+    "correctAnswer": "40 square units",
+    "hint": "Multiply the length and width of the rectangle."
   },
   {
     "id": 5,
     "question": "Simplify the expression: 3(2x - 5) + 4(3x + 2)",
     "options": ["18x + 2", "18x - 18", "18x + 14", "18x - 8"],
-    "correctAnswer": "18x + 2"
+    "correctAnswer": "18x + 2",
+    "hint": "Distribute and combine like terms in the expression."
   },
   {
     "id": 6,
     "question": "If a triangle has angles measuring 30°, 60°, and 90°, what type of triangle is it?",
     "options": ["Equilateral", "Isosceles", "Scalene", "Right-angled"],
-    "correctAnswer": "Right-angled"
+    "correctAnswer": "Right-angled",
+    "hint": "Check the angle measures and identify the special type of triangle."
   },
   {
     "id": 7,
     "question": "What is the value of π (pi) to two decimal places?",
     "options": ["3.14", "3.16", "3.18", "3.20"],
-    "correctAnswer": "3.14"
+    "correctAnswer": "3.14",
+    "hint": "Pi is an irrational number with a decimal representation that starts with 3.14."
   },
   {
     "id": 8,
     "question": "If a circle has a radius of 5 units, what is its circumference?",
     "options": ["10π units", "15π units", "20π units", "25π units"],
-    "correctAnswer": "10π units"
+    "correctAnswer": "10π units",
+    "hint": "Use the formula for the circumference of a circle."
   },
   {
     "id": 9,
     "question": "What is the product of 7 and 9?",
     "options": ["56", "63", "70", "81"],
-    "correctAnswer": "63"
+    "correctAnswer": "63",
+    "hint": "Multiply the two numbers together."
   },
   {
     "id": 10,
     "question": "If a = 2 and b = 3, what is the value of a² + b²?",
     "options": ["4", "9", "13", "25"],
-    "correctAnswer": "13"
+    "correctAnswer": "13",
+    "hint": "Square each number, then sum the squares."
   },
   {
     "id": 11,
     "question": "What is the perimeter of a square with side length 6 units?",
     "options": ["18 units", "24 units", "30 units", "36 units"],
-    "correctAnswer": "24 units"
+    "correctAnswer": "24 units",
+    "hint": "Add up the lengths of all sides of the square."
   },
   {
     "id": 12,
     "question": "What is the sum of the interior angles of a hexagon?",
     "options": ["360 degrees", "540 degrees", "720 degrees", "900 degrees"],
-    "correctAnswer": "720 degrees"
+    "correctAnswer": "720 degrees",
+    "hint": "Use the formula for the sum of interior angles in a polygon."
   },
   {
     "id": 13,
     "question": "If a right-angled triangle has legs of length 3 and 4 units, what is the length of the hypotenuse?",
     "options": ["5 units", "6 units", "7 units", "8 units"],
-    "correctAnswer": "5 units"
+    "correctAnswer": "5 units",
+    "hint": "Apply the Pythagorean theorem to find the hypotenuse."
   },
   {
     "id": 14,
     "question": "What is the value of 2^4?",
     "options": ["8", "16", "32", "64"],
-    "correctAnswer": "16"
+    "correctAnswer": "16",
+    "hint": "Raise 2 to the power of 4."
   },
   {
     "id": 15,
     "question": "If a rectangle has length 10 units and width 6 units, what is its perimeter?",
     "options": ["22 units", "26 units", "30 units", "36 units"],
-    "correctAnswer": "32 units"
+    "correctAnswer": "32 units",
+    "hint": "Use the formula for the perimeter of a rectangle."
   }
 ]

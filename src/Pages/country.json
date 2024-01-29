@@ -3,42 +3,49 @@
         "id": 1,
         "question": "Which country is known as the Land of the Rising Sun?",
         "options": ["China", "Japan", "South Korea", "Vietnam"],
-        "correctAnswer": "Japan"
+        "correctAnswer": "Japan",
+        "hint": "This country's name translates to 'origin of the sun.'"
     },
     {
         "id": 2,
         "question": "In which country would you find the pyramids of Giza?",
         "options": ["Greece", "Turkey", "Egypt", "Italy"],
-        "correctAnswer": "Egypt"
+        "correctAnswer": "Egypt",
+        "hint": "Home to ancient wonders, this country is located in North Africa."
     },
     {
         "id": 3,
         "question": "What is the capital city of Australia?",
         "options": ["Sydney", "Melbourne", "Canberra", "Perth"],
-        "correctAnswer": "Canberra"
+        "correctAnswer": "Canberra",
+        "hint": "The capital was purpose-built and not one of the major coastal cities."
     },
     {
         "id": 4,
         "question": "Which country is the largest by land area?",
         "options": ["Russia", "Canada", "United States", "China"],
-        "correctAnswer": "Russia"
+        "correctAnswer": "Russia",
+        "hint": "Covering two continents, this country is known for its vast expanses."
     },
     {
         "id": 5,
         "question": "In which continent is Brazil located?",
         "options": ["Asia", "Africa", "South America", "Europe"],
-        "correctAnswer": "South America"
+        "correctAnswer": "South America",
+        "hint": "The Amazon rainforest is a prominent feature of this continent."
     },
     {
         "id": 6,
         "question": "What is the official language of Mexico?",
         "options": ["Spanish", "Portuguese", "English", "French"],
-        "correctAnswer": "Spanish"
+        "correctAnswer": "Spanish",
+        "hint": "¡Hola! The language spoken in this North American country is widely used."
     },
     {
         "id": 7,
         "question": "Which African country is known as the \"Rainbow Nation\"?",
         "options": ["Nigeria", "Kenya", "South Africa", "Egypt"],
-        "correctAnswer": "South Africa"
+        "correctAnswer": "South Africa",
+        "hint": "This country earned this nickname due to its diverse population and history."
     }
 ]

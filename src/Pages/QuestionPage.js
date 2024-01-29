@@ -34,6 +34,7 @@ export default function Question({ updateScore }) {
     const [submitted, setSubmitted] = useState(false);
     const [NoOfQuestionSubmitted, setNoOfQuestionSubmitted] = useState(0);
     const [innerLoadedQuestions, setInnerLoadedQuestions] = useState([]);
+    const [showHint, setShowHint] = useState(false);
 
     const timerRef = useRef(100); // Initialize with the initial timer value
 
@@ -70,7 +71,7 @@ export default function Question({ updateScore }) {
         };
 
         loadQuestionsAndSetState();
-    }, [id, category, navigate]);
+    }, [id, category, navigate, showHint]);
 
     useEffect(() => {
         // Redirect to the result page when the timer reaches zero
@@ -99,6 +100,12 @@ export default function Question({ updateScore }) {
         const selectedOptionForCurrentQuestion = userAnswers[questionId];
         setSelectedOption(selectedOptionForCurrentQuestion || '');
     }, [currentQuestion]);
+
+
+    useEffect(() => {
+        setShowHint(false); // Reset showHint when the current question changes
+    }, [currentQuestion]);
+
 
     const handleOptionSelect = (option) => {
         const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
@@ -138,7 +145,9 @@ export default function Question({ updateScore }) {
     };
 
 
-
+    const handleToggleHint = () => {
+        setShowHint((prevShowHint) => !prevShowHint);
+    };
 
     const handleSubmit = () => { // Function to get the submit the selected option 
         // Check if the selected option is correct
@@ -168,7 +177,6 @@ export default function Question({ updateScore }) {
         if (nextQuestionId > 0 && nextQuestionId <= innerLoadedQuestions.length) {
             navigate(`/question/${nextQuestionId}/${category}`);
         }
-
         setSubmitted(false);
     };
 
@@ -177,17 +185,17 @@ export default function Question({ updateScore }) {
         // Clear user answers from localStorage
         if (startOverConfirmation()) {
             localStorage.removeItem('userAnswers');
-        // Reset the selected option state to an empty string
-        localStorage.removeItem('answeredQuestionIds');
+            // Reset the selected option state to an empty string
+            localStorage.removeItem('answeredQuestionIds');
 
-        setNoOfQuestionSubmitted(0);
-        setSelectedOption('');
-        // Redirect to the first question
-        navigate(`/question/1/${category}`);
-        console.log("No of Questions Submitted: " + NoOfQuestionSubmitted);
-        setProgress(0);
+            setNoOfQuestionSubmitted(0);
+            setSelectedOption('');
+            // Redirect to the first question
+            navigate(`/question/1/${category}`);
+            console.log("No of Questions Submitted: " + NoOfQuestionSubmitted);
+            setProgress(0);
         }
-        
+
     };
 
     const showConfirmation = () => {
@@ -254,8 +262,17 @@ export default function Question({ updateScore }) {
                             <div className='row'>
                                 <div className='col-12 col-xl-8 text-start'>
                                     {timer !== null && <p>Time remaining: {timer} seconds</p>}
+                                    {showHint && (
+                                        <div className="mt-3">
+                                            <strong>Hint:</strong> {currentQuestion.hint}
+                                        </div>
+                                    )}
                                 </div>
-
+                                <div className='my-2 col-12 col-xl-4 my-2'>
+                                    <button onClick={handleToggleHint} className="btn btn-primary btn-lg w-100">
+                                        {showHint ? 'Hide Hint' : 'Show Hint'}
+                                    </button>
+                                </div>
 
 
                             </div>
