@@ -31,7 +31,7 @@ export default function Home() {
                     <Link to="/question/1/math" className="noTextDecoration"><div className="m-5 p-5 text-center text-light quizCards">
                         <h1>Math Quiz</h1>
                         <h2 className="display-6 py-5">{mathQuestions.length} Questions</h2>
-                        <h3 className="py-2">Time</h3>
+                        {/* <h3 className="py-2">Time</h3> */}
                     </div></Link>
                 </div>
                 <div className="col-12 col-xl-4 col-md-6">
