@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
-import techQuestions from './tech.json'
-import mathQuestions from './math.json'
-
+import { useNavigate, useParams } from 'react-router-dom';
 
 function useInterval(callback, delay) {
     const savedCallback = useRef();
@@ -22,28 +19,29 @@ function useInterval(callback, delay) {
     }, [delay]);
 }
 
-
 export default function Question({ updateScore }) {
-    const { id, category } = useParams(); // Get parameter from URL
-    const navigate = useNavigate(); // Navigate questions (used to be useHistory)
-    const [currentQuestion, setCurrentQuestion] = useState(null); // UseState for current question
-    const [selectedOption, setSelectedOption] = useState(''); // UseState for Selected Option
-    const [isAnswerCorrect, setIsAnswerCorrect] = useState(null); // UseState for if the SelectedOption is correct (Boolean)
-    const [timer, setTimer] = useState(100); // Timer in seconds (optional challenge)
+    const { id, category } = useParams();
+    const navigate = useNavigate();
+    const [currentQuestion, setCurrentQuestion] = useState(null);
+    const [selectedOption, setSelectedOption] = useState('');
+    const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
+    const [timer, setTimer] = useState(100);
     const [progress, setProgress] = useState(0);
     const [submitted, setSubmitted] = useState(false);
     const [NoOfQuestionSubmitted, setNoOfQuestionSubmitted] = useState(0);
     const [innerLoadedQuestions, setInnerLoadedQuestions] = useState([]);
     const [showHint, setShowHint] = useState(false);
+    const [answeredQuestionIds, setAnsweredQuestionIds] = useState([]);
 
-    const timerRef = useRef(100); // Initialize with the initial timer value
+    const timerRef = useRef(100);
 
+
+    // Use Effect for Timer
     useInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
     }, timerRef.current ? 1000 : null);
 
-
-    console.log("Category is: " + category);
+    // Use effect for question loading
     useEffect(() => {
         const loadQuestionsAndSetState = async () => {
             const loadedQuestions = await loadQuestions();
@@ -54,7 +52,7 @@ export default function Question({ updateScore }) {
 
             if (foundQuestion) {
                 setCurrentQuestion(foundQuestion);
-                timerRef.current = 100; // Reset timer value when loading a new question
+                timerRef.current = 100;
             } else {
                 navigate(`/result/${category}`);
             }
@@ -73,84 +71,81 @@ export default function Question({ updateScore }) {
         loadQuestionsAndSetState();
     }, [id, category, navigate, showHint]);
 
+
+    // Use effect if timer gets to 0
     useEffect(() => {
-        // Redirect to the result page when the timer reaches zero
         if (timer === 0) {
             navigate(`/result/${category}`);
         }
     }, [timer, navigate]);
 
+
+    // Use effect if user submit an answer
     useEffect(() => {
         if (submitted) {
             const totalQuestions = innerLoadedQuestions.length;
-            const answeredQuestionIds = JSON.parse(localStorage.getItem('answeredQuestionIds')) || [];
+            const answeredIds = JSON.parse(localStorage.getItem('answeredQuestionIds')) || [];
+            setAnsweredQuestionIds(answeredIds);
 
-            if (!answeredQuestionIds.includes(currentQuestion.id)) {
+            if (!answeredIds.includes(currentQuestion.id)) {
                 const updatedProgress = Math.ceil(((NoOfQuestionSubmitted) / totalQuestions) * 100);
                 setProgress(updatedProgress);
-                console.log("UPDATE PROGRESS BAR")
             }
         }
     }, [currentQuestion, submitted, NoOfQuestionSubmitted, innerLoadedQuestions.length]);
 
+
+    // Use effect if user want to go back to previous answer
     useEffect(() => {
         const questionId = parseInt(id, 10);
-        // Retrieve the selected option from localStorage
         const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
         const selectedOptionForCurrentQuestion = userAnswers[questionId];
         setSelectedOption(selectedOptionForCurrentQuestion || '');
-    }, [currentQuestion]);
+
+        // Reset selected option when a new question is loaded
+        if (!answeredQuestionIds.includes(questionId)) {
+            setSelectedOption('');
+        }
+    }, [currentQuestion, id, answeredQuestionIds]);
 
 
+    // Use effect to show hints
     useEffect(() => {
         setShowHint(false); // Reset showHint when the current question changes
     }, [currentQuestion]);
 
-
     const handleOptionSelect = (option) => {
         const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
-        const answeredQuestionIds = JSON.parse(localStorage.getItem('answeredQuestionIds')) || [];
 
-        // Update the user's answer and localStorage
         userAnswers[currentQuestion.id] = option;
         localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
 
-        // Update the list of answered question IDs and localStorage
         if (!answeredQuestionIds.includes(currentQuestion.id)) {
-            answeredQuestionIds.push(currentQuestion.id);
-            localStorage.setItem('answeredQuestionIds', JSON.stringify(answeredQuestionIds));
+            const updatedIds = [...answeredQuestionIds, currentQuestion.id];
+            localStorage.setItem('answeredQuestionIds', JSON.stringify(updatedIds));
             setNoOfQuestionSubmitted(NoOfQuestionSubmitted + 1);
-            console.log("No of Questions Submitted: " + NoOfQuestionSubmitted);
         }
 
-        // Update the progress
-        // setProgress((answeredQuestionIds.length / questions.length) * 100);
-        console.log(answeredQuestionIds.length);
-        console.log((answeredQuestionIds.length / innerLoadedQuestions.length) * 100);
         setSelectedOption(option);
 
-        // If the answer was submitted, wait for a short delay and then navigate
         if (submitted) {
-
             const nextQuestionId = currentQuestion.id + 1;
             const nextPath = nextQuestionId <= innerLoadedQuestions.length ? `/question/${nextQuestionId}/${category}` : `/result/${category}`;
             navigate(nextPath);
-
         } else {
-            // If not submitted, automatically submit after a delay
-
             handleSubmit();
-
         }
     };
 
 
+    // Toggle hint function
     const handleToggleHint = () => {
         setShowHint((prevShowHint) => !prevShowHint);
     };
 
-    const handleSubmit = () => { // Function to get the submit the selected option 
-        // Check if the selected option is correct
+
+    // Submit function
+    const handleSubmit = () => {
         const correct = selectedOption === currentQuestion.correctAnswer;
         setIsAnswerCorrect(correct);
         if (isAnswerCorrect) {
@@ -158,21 +153,16 @@ export default function Question({ updateScore }) {
         }
         setSubmitted(true);
 
-        // Redirect to the next question or results page
         const nextQuestionId = currentQuestion.id + 1;
-        const nextPath = nextQuestionId <= innerLoadedQuestions.length
-            ? `/question/${nextQuestionId}/${category}`
-            : `/result/${category}`;
+        const nextPath = nextQuestionId <= innerLoadedQuestions.length ? `/question/${nextQuestionId}/${category}` : `/result/${category}`;
 
-        // Redirect after a delay for better user experience
-        // setTimeout(() => {
         navigate(nextPath);
-        // }, 1000);
     };
 
+
+    // Navigation function
     const handleNavigation = (direction) => {
-        const nextQuestionId =
-            direction === 'next' ? currentQuestion.id + 1 : currentQuestion.id - 1;
+        const nextQuestionId = direction === 'next' ? currentQuestion.id + 1 : currentQuestion.id - 1;
 
         if (nextQuestionId > 0 && nextQuestionId <= innerLoadedQuestions.length) {
             navigate(`/question/${nextQuestionId}/${category}`);
@@ -181,23 +171,20 @@ export default function Question({ updateScore }) {
     };
 
 
+    // Clearing answer function (start over)
     const handleClearAnswers = () => {
-        // Clear user answers from localStorage
         if (startOverConfirmation()) {
             localStorage.removeItem('userAnswers');
-            // Reset the selected option state to an empty string
             localStorage.removeItem('answeredQuestionIds');
-
             setNoOfQuestionSubmitted(0);
             setSelectedOption('');
-            // Redirect to the first question
             navigate(`/question/1/${category}`);
-            console.log("No of Questions Submitted: " + NoOfQuestionSubmitted);
             setProgress(0);
         }
-
     };
 
+
+    // Showing message functions
     const showConfirmation = () => {
         return window.confirm('Are you sure you want to return home? Your progress will be lost.');
     };
@@ -207,32 +194,26 @@ export default function Question({ updateScore }) {
     };
 
 
+    // Retruning home functions
     const handleReturnHome = () => {
         if (showConfirmation()) {
-            // Clear user answers from localStorage
             localStorage.removeItem('userAnswers');
-            // Reset the selected option state to an empty string
             localStorage.removeItem('answeredQuestionIds');
             setNoOfQuestionSubmitted(0);
             setSelectedOption('');
-            // Redirect to the home page
             navigate('/');
         }
     };
 
     return (
         <div>
-
             <div className="homeContainer">
-
                 <div className="backgroundImage py-5">
                     <div className="container">
                         <h1 className="text-light text-center display-2 py-5"> {category.charAt(0).toUpperCase() + category.slice(1)} Quiz </h1>
                     </div>
                 </div>
-
                 <hr className="horizontalLines"></hr>
-
                 <div className='container text-light'>
                     {currentQuestion && (
                         <div>
@@ -246,7 +227,6 @@ export default function Question({ updateScore }) {
                                             type="button"
                                             className={`btn btn-outline-primary w-100 btn-lg p-4 ${selectedOption === option ? 'active' : ''}`}
                                             onClick={() => handleOptionSelect(option)}
-                                        // disabled={submitted}
                                         >
                                             {option}
                                         </button>
@@ -257,7 +237,6 @@ export default function Question({ updateScore }) {
                             <div className="progress my-3">
                                 <div className="progress-bar progress-bar-striped" role="progressbar" style={{ width: `${progress}%` }} aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100">{progress}%</div>
                             </div>
-
 
                             <div className='row'>
                                 <div className='col-12 col-xl-8 text-start'>
@@ -273,12 +252,9 @@ export default function Question({ updateScore }) {
                                         {showHint ? 'Hide Hint' : 'Show Hint'}
                                     </button>
                                 </div>
-
-
                             </div>
 
                             <div className='row'>
-
                                 <div className='col-12 col-xl-4 text-center'>
                                     <div className='row'>
                                         <div className='col-12 col-sm-6 my-2'>
@@ -286,7 +262,6 @@ export default function Question({ updateScore }) {
                                                 Prev
                                             </button>
                                         </div>
-
                                         <div className='col-12 col-sm-6 my-2'>
                                             <button className="btn btn-warning w-100 btn-lg" onClick={() => handleNavigation('next')} disabled={currentQuestion.id === innerLoadedQuestions.length}>
                                                 Next
@@ -307,19 +282,12 @@ export default function Question({ updateScore }) {
                                             </button>
                                         </div>
                                     </div>
-
-
                                 </div>
-
-
-
                             </div>
-
                         </div>
                     )}
                 </div>
-
             </div>
         </div>
-    )
+    );
 }
