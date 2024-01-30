@@ -13,7 +13,7 @@ export default function Home() {
 
             <div className="backgroundImage py-5">
                 <div className="container">
-                    <h1 className="text-light text-center display-2 py-5">Welcome to my interactive quiz</h1>
+                    <h1 className="text-light text-center display-2 py-5"><strong>Welcome to my interactive quiz</strong></h1>
                 </div>
             </div>
 
